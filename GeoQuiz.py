@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
+import tkinter as tk
 from customtkinter import *
 from PIL import Image, ImageTk
 
@@ -8,45 +9,47 @@ root.title("GeoQuiz")
 root.geometry("1000x600")
 root.minsize(1000, 600)
 set_widget_scaling(1.8)
-Frame(root, bg="blue").pack(fill="both", expand=True)
 
+# Initialise Values
 TypedMode = True
-
-#import image
-image_original = Image.open('map.jpg').resize((2932,1860))
-image_tk = ImageTk.PhotoImage(image_original)
-
-#create label
-Label2 = CTkLabel(root, text="", image=image_tk)
+CountryImage = "France.png"
+HighScore = 0
 
 def BeginQuiz():
-    Button1.grid_remove()
-    Label2.place(x=10, y=10)
-    Button1.place(x=10, y=10)
-    Label2.grid_remove()
+    BeginButton.destroy()
+    RegionMenu.destroy()
+    ModeButton.destroy()
+    ScoreLabel.destroy()
+    ImageLabel.place(relx=0.5, rely=0.5, anchor='center')
+    if CurrentMode.get() == "Typed Mode":
+        print("typed")
+    elif CurrentMode.get() == "Select Mode":
+        print("select")
 
-Button1 = CTkButton(root, width=80, text="Begin Quiz", command=BeginQuiz, font=("Arial", 10))
-Button1.place(x=10, y=10)
+def GoToMenu():
+    BeginButton.place(relx=0.5, rely=0.35, anchor='center')
+    RegionMenu.place(relx=0.5, rely=0.5, anchor='center')
+    ModeButton.place(relx=0.5, rely=0.6, anchor='center')
+    ScoreLabel.place(relx=0.5, rely=0.7, anchor='center')
 
-class DragManage():
-    def addDragWidget(self, widget):
-        self.widget = widget
-        self.root = widget.winfo_toplevel()
-        self.widget.bind("<B1-Motion>", self.on_drag)
-        self.widget.bind("<Button-1>", self.clickwin)
-        self.offset_x = 0
-        self.offset_y = 0
-    def clickwin(self, event):
-        self.offset_x = event.x
-        self.offset_y = event.y
-    def on_drag(self, event):
-        self.widget.place(x=event.x_root - self.offset_x - 141, y=event.y_root - self.offset_y - 141)
+# Import Image
+image_original = Image.open(CountryImage).resize((500, 500))
+image_tk = ImageTk.PhotoImage(image_original)
+ImageLabel = tk.Label(root, text="", image=image_tk)
 
-drag1 = DragManage()
-drag1.addDragWidget(Label2)
+# Menu Buttons
+BeginButton = CTkButton(root, width=250, height=50, text="Begin Quiz", command=BeginQuiz, font=("Arial", 25))
+RegionMenu = CTkOptionMenu(root, width=100, height=25, values=["North America", "South America", "Europe", "Asia", "Africa", "Oceania"], font=("Arial", 10))
+CurrentMode = tk.Variable()
+CurrentMode.set("Select Mode")
+ModeButton = CTkSegmentedButton(root, width=100, height=25, values=["Select Mode", "Typed Mode"], font=("Arial", 10), variable=CurrentMode)
+ScoreLabel = CTkLabel(root, text=f"High Score: {HighScore}", font=("Arial", 10))
+
+# Quiz Buttons
+
+GoToMenu()
 
 # Sizing
-
 def small():
     set_widget_scaling(1.0)
     root.minsize(1000, 600)
@@ -62,15 +65,13 @@ def large():
     root.minsize(1000, 600)
     root.geometry("1000x600")
 
-# About popup
-
+# About Popup
 def about():
     messagebox.showinfo(title="GeoQuiz", message="By Ethan \
                     https://github.com/EthanSDD/GeoQuiz \
                     Licensed under GPL-3.0")
 
 # Create File toolbar
-
 menubar = Menu(root)
 root.configure(menu=menubar)
 
