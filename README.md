@@ -33,3 +33,4 @@ sudo apt install python-tk
 ## Acknowledgements
 [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter)
 [Pillow](https://github.com/python-pillow/Pillow)
+Maps provided by [Vemaps.com](https://vemaps.com/)
