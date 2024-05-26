@@ -3,6 +3,7 @@ from tkinter import messagebox
 import tkinter as tk
 from customtkinter import *
 from PIL import Image, ImageTk
+import pyttsx3
 
 root = CTk()
 root.title("GeoQuiz")
@@ -15,22 +16,199 @@ set_widget_scaling(1.8)
 TypedMode = True
 HighScore = 0
 Size = "Medium"
+Country = "USA"
+Answer = "Test"
+Submitted = False
+Score = 0
+CurrentCountryIndex = 0
+InfoLabel = CTkLabel(root, text="Test", font=("Arial", 10))
 
-def Selection(Region):
+def Quiz(Region):
+    global HighScore, Submitted, Answer, Score, Country, ImageLabel
+
     if Region == "North America":
-        print("na")
+
+        Country = "USA"
+        Submitted = False
+        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
+        image_tk = ImageTk.PhotoImage(image_original)
+        ImageLabel = tk.Label(root, text="", image=image_tk)
+        ImageLabel.image = image_tk
+        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
+        ImageLabel.lower()
+        CheckAnswer(Country)
+
     elif Region == "South America":
-        print("sa")
+        
+        Country = "Brazil"
+        Submitted = False
+        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
+        image_tk = ImageTk.PhotoImage(image_original)
+        ImageLabel = tk.Label(root, text="", image=image_tk)
+        ImageLabel.image = image_tk
+        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
+        ImageLabel.lower()
+        CheckAnswer(Country)
+
     elif Region == "Europe":
-        print("eu")
+        
+        Country = "Germany"
+        Submitted = False
+        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
+        image_tk = ImageTk.PhotoImage(image_original)
+        ImageLabel = tk.Label(root, text="", image=image_tk)
+        ImageLabel.image = image_tk
+        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
+        ImageLabel.lower()
+        CheckAnswer(Country)
+
     elif Region == "Asia":
-        print("as")
+        
+        Country = "Japan"
+        Submitted = False
+        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
+        image_tk = ImageTk.PhotoImage(image_original)
+        ImageLabel = tk.Label(root, text="", image=image_tk)
+        ImageLabel.image = image_tk
+        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
+        ImageLabel.lower()
+        CheckAnswer(Country)
+
     elif Region == "Africa":
-        print("af")
+        
+        Country = "Egypt"
+        Submitted = False
+        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
+        image_tk = ImageTk.PhotoImage(image_original)
+        ImageLabel = tk.Label(root, text="", image=image_tk)
+        ImageLabel.image = image_tk
+        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
+        ImageLabel.lower()
+        CheckAnswer(Country)
+
     elif Region == "Oceania":
-        print("oc")
+
+        Country = "Fiji"
+        Submitted = False
+        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
+        image_tk = ImageTk.PhotoImage(image_original)
+        ImageLabel = tk.Label(root, text="", image=image_tk)
+        ImageLabel.image = image_tk
+        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
+        ImageLabel.lower()
+        CheckAnswer(Country)
+
+def Learn(Region):
+    global Country, ImageLabel, InfoLabel
+
+    if Region == "North America":
+
+        Country = "USA"
+        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
+        image_tk = ImageTk.PhotoImage(image_original)
+        ImageLabel = tk.Label(root, text="", image=image_tk)
+        ImageLabel.image = image_tk
+        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
+        ImageLabel.lower()
+        InfoLabel = CTkLabel(root, text="USA", font=("Arial", 10))
+        InfoLabel.place(relx=0.5, rely=0.05, anchor="center")
+        engine = pyttsx3.init()
+        engine.say("USA")
+        engine.runAndWait
+
+    elif Region == "South America":
+        
+        Country = "Brazil"
+        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
+        image_tk = ImageTk.PhotoImage(image_original)
+        ImageLabel = tk.Label(root, text="", image=image_tk)
+        ImageLabel.image = image_tk
+        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
+        ImageLabel.lower()
+        InfoLabel = CTkLabel(root, text="Brazil", font=("Arial", 10))
+        InfoLabel.place(relx=0.5, rely=0.05, anchor="center")
+        engine = pyttsx3.init()
+        engine.say("Brazil")
+        engine.runAndWait
+
+    elif Region == "Europe":
+        
+        Country = "Germany"
+        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
+        image_tk = ImageTk.PhotoImage(image_original)
+        ImageLabel = tk.Label(root, text="", image=image_tk)
+        ImageLabel.image = image_tk
+        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
+        ImageLabel.lower()
+        InfoLabel = CTkLabel(root, text="Germany", font=("Arial", 10))
+        InfoLabel.place(relx=0.5, rely=0.05, anchor="center")
+        engine = pyttsx3.init()
+        engine.say("Germany")
+        engine.runAndWait
+
+    elif Region == "Asia":
+        
+        Country = "Japan"
+        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
+        image_tk = ImageTk.PhotoImage(image_original)
+        ImageLabel = tk.Label(root, text="", image=image_tk)
+        ImageLabel.image = image_tk
+        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
+        ImageLabel.lower()
+        InfoLabel = CTkLabel(root, text="Japan", font=("Arial", 10))
+        InfoLabel.place(relx=0.5, rely=0.05, anchor="center")
+        engine = pyttsx3.init()
+        engine.say("Japan")
+        engine.runAndWait
+
+    elif Region == "Africa":
+        
+        Country = "Egypt"
+        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
+        image_tk = ImageTk.PhotoImage(image_original)
+        ImageLabel = tk.Label(root, text="", image=image_tk)
+        ImageLabel.image = image_tk
+        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
+        ImageLabel.lower()
+        InfoLabel = CTkLabel(root, text="Egypt", font=("Arial", 10))
+        InfoLabel.place(relx=0.5, rely=0.05, anchor="center")
+        engine = pyttsx3.init()
+        engine.say("Egypt")
+        engine.runAndWait
+
+    elif Region == "Oceania":
+
+        Country = "Fiji"
+        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
+        image_tk = ImageTk.PhotoImage(image_original)
+        ImageLabel = tk.Label(root, text="", image=image_tk)
+        ImageLabel.image = image_tk
+        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
+        ImageLabel.lower()
+        InfoLabel = CTkLabel(root, text="Fiji", font=("Arial", 10))
+        InfoLabel.place(relx=0.5, rely=0.05, anchor="center")
+        engine = pyttsx3.init()
+        engine.say("Fiji")
+        engine.runAndWait
+
+def CheckAnswer(Country):
+    global Submitted, Answer, Score, HighScore
+    if Submitted:
+        if Answer.lower() == Country.lower():
+            Score += 1
+            messagebox.showinfo(title="Result", message="Correct Answer!")
+        else:
+            messagebox.showinfo(title="Result", message=f"Incorrect! Answer was: {Country}")
+
+        # End of quiz, show score
+        messagebox.showinfo(title="Result", message=f"Finished Quiz! Score: {Score}")
+        if Score > HighScore:
+            HighScore = Score
+        EndQuiz()
 
 def BeginQuiz():
+    global Score
+    Score = 0
     BeginButton.place_forget()
     RegionMenu.place_forget()
     ModeButton.place_forget()
@@ -53,12 +231,12 @@ def BeginQuiz():
         SkipButton.place(relx=0.97, rely=0.78, anchor="se")
         NewAttemptButton.place(relx=0.99, rely=0.88, anchor="se")
         EndQuizButton.place(relx=0.975, rely=0.98, anchor="se")
-    ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
-    if CurrentMode.get() == "Typed Mode":
+    if CurrentMode.get() == "Learn":
+        Learn(Region)
+    elif CurrentMode.get() == "Quiz":
         EntryFieldElement.place(relx=0.5, rely=0.95, anchor="center")
         EntryFieldElement.delete(0, END)
-    elif CurrentMode.get() == "Select Mode":
-        Selection(Region)
+        Quiz(Region)
 
 def GoToMenu():
     BeginButton.place(relx=0.5, rely=0.35, anchor="center")
@@ -67,15 +245,19 @@ def GoToMenu():
     ScoreLabel.place(relx=0.5, rely=0.7, anchor="center")
 
 def Submit():
+    global Submitted, Answer
     Answer = EntryFieldElement.get()
-    print(Answer)
+    Submitted = True
+    CheckAnswer(Country)
 
 def Skip():
-    print()
+    EndQuiz()
 
 def NewAttempt():
-    print()
+    EndQuiz()
+    BeginQuiz()
 
+# Forgets the labels to end the quiz and updates high score
 def EndQuiz():
     ImageLabel.place_forget()
     ButtonsBGS.place_forget()
@@ -86,10 +268,9 @@ def EndQuiz():
     NewAttemptButton.place_forget()
     EndQuizButton.place_forget()
     EntryFieldElement.place_forget()
+    ScoreLabel.configure(text=f"High Score: {HighScore}")
+    InfoLabel.place_forget()
     GoToMenu()
-
-def EntryField():
-    print()
 
 # Menu Buttons
 BeginButton = CTkButton(root, width=250, height=50, text="Begin Quiz", command=BeginQuiz, font=("Arial", 25))
@@ -97,20 +278,11 @@ Region = "North America"
 def RegChange(selected_value):
     global Region
     Region = selected_value
-    ImportImage()
 RegionMenu = CTkOptionMenu(root, width=100, height=25, values=["North America", "South America", "Europe", "Asia", "Africa", "Oceania"], font=("Arial", 10), command=RegChange)
 CurrentMode = tk.Variable()
-CurrentMode.set("Select Mode")
-ModeButton = CTkSegmentedButton(root, width=100, height=25, values=["Select Mode", "Typed Mode"], font=("Arial", 10), variable=CurrentMode)
+CurrentMode.set("Quiz")
+ModeButton = CTkSegmentedButton(root, width=100, height=25, values=["Quiz", "Learn"], font=("Arial", 10), variable=CurrentMode)
 ScoreLabel = CTkLabel(root, text=f"High Score: {HighScore}", font=("Arial", 10))
-
-def ImportImage(): # Import Image
-    image_original = Image.open(f"{Region}.png").resize((500, 500))
-    image_tk = ImageTk.PhotoImage(image_original)
-    global ImageLabel
-    ImageLabel = tk.Label(root, text="", image=image_tk)
-    ImageLabel.image = image_tk
-ImportImage()
 
 # Quiz Buttons
 ButtonsBGS = CTkLabel(root, width=95, height=127, text="", fg_color="#b8b8b8")
@@ -121,7 +293,6 @@ SkipButton = CTkButton(root, width=50, height=20, text="Skip", command=Skip, fon
 NewAttemptButton = CTkButton(root, width=50, height=20, text="New Attempt", command=NewAttempt, font=("Arial", 10), bg_color="#b8b8b8")
 EndQuizButton = CTkButton(root, width=50, height=20, text="End Quiz", command=EndQuiz, font=("Arial", 10), bg_color="#b8b8b8")
 EntryFieldElement = CTkEntry(root, width=200, height=20, placeholder_text="Type answer here")
-
 GoToMenu()
 
 # Sizing
@@ -156,10 +327,8 @@ menufont = Menu(menubar, tearoff=0)
 menutran = Menu(menubar, tearoff=0)
 
 menubar.add_cascade(label="File", menu=menufile)
-menubar.add_cascade(label="Language", menu=menutran)
 menubar.add_cascade(label="Theme", menu=menuthem)
 menubar.add_cascade(label="Zoom", menu=menufont)
-menubar.add_cascade(label="TTS", menu=menutran)
 
 menufile.add_command(label="About", command=about)
 menufile.add_separator()
