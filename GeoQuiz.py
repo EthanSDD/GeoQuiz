@@ -21,82 +21,69 @@ Answer = "Test"
 Submitted = False
 Score = 0
 CurrentCountryIndex = 0
+Finished = False
+CountryNum = 0
 InfoLabel = CTkLabel(root, text="Test", font=("Arial", 10))
 
-def Quiz(Region):
-    global HighScore, Submitted, Answer, Score, Country, ImageLabel
+def QuizPlacement():
+    global Submitted, Country, ImageLabel
+    Submitted = False
+    image_original = Image.open(f"images/{Country.lower()}.png").resize((1000, 750))
+    image_tk = ImageTk.PhotoImage(image_original)
+    ImageLabel = tk.Label(root, text="", image=image_tk)
+    ImageLabel.image = image_tk
+    ImageLabel.place(relx=0.5, rely=0.45, anchor="center")
+    ImageLabel.lower()
 
+def Quiz(Region, CountryNum):
+    global Country, Finished
     if Region == "North America":
-
-        Country = "USA"
-        Submitted = False
-        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
-        image_tk = ImageTk.PhotoImage(image_original)
-        ImageLabel = tk.Label(root, text="", image=image_tk)
-        ImageLabel.image = image_tk
-        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
-        ImageLabel.lower()
-        CheckAnswer(Country)
+        CountryList = ("USA", "Mexico", "Canada")
+        if CountryNum >= (len(CountryList) - 1):
+            Finished = True
+        Country = CountryList[CountryNum]
+        QuizPlacement()
+        CheckAnswer(Country, Region)
 
     elif Region == "South America":
-        
-        Country = "Brazil"
-        Submitted = False
-        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
-        image_tk = ImageTk.PhotoImage(image_original)
-        ImageLabel = tk.Label(root, text="", image=image_tk)
-        ImageLabel.image = image_tk
-        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
-        ImageLabel.lower()
-        CheckAnswer(Country)
+        CountryList = ("Brazil", "Argentina", "Colombia")
+        if CountryNum >= (len(CountryList) - 1):
+            Finished = True
+        Country = CountryList[CountryNum]
+        QuizPlacement()
+        CheckAnswer(Country, Region)
 
     elif Region == "Europe":
-        
-        Country = "Germany"
-        Submitted = False
-        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
-        image_tk = ImageTk.PhotoImage(image_original)
-        ImageLabel = tk.Label(root, text="", image=image_tk)
-        ImageLabel.image = image_tk
-        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
-        ImageLabel.lower()
-        CheckAnswer(Country)
+        CountryList = ("Germany", "France", "Russia")
+        if CountryNum >= (len(CountryList) - 1):
+            Finished = True
+        Country = CountryList[CountryNum]
+        QuizPlacement()
+        CheckAnswer(Country, Region)
 
     elif Region == "Asia":
-        
-        Country = "Japan"
-        Submitted = False
-        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
-        image_tk = ImageTk.PhotoImage(image_original)
-        ImageLabel = tk.Label(root, text="", image=image_tk)
-        ImageLabel.image = image_tk
-        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
-        ImageLabel.lower()
-        CheckAnswer(Country)
+        CountryList = ("Japan", "Korea", "India")
+        if CountryNum >= (len(CountryList) - 1):
+            Finished = True
+        Country = CountryList[CountryNum]
+        QuizPlacement()
+        CheckAnswer(Country, Region)
 
     elif Region == "Africa":
-        
-        Country = "Egypt"
-        Submitted = False
-        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
-        image_tk = ImageTk.PhotoImage(image_original)
-        ImageLabel = tk.Label(root, text="", image=image_tk)
-        ImageLabel.image = image_tk
-        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
-        ImageLabel.lower()
-        CheckAnswer(Country)
+        CountryList = ("Egypt", "Ethiopia", "Tanzania")
+        if CountryNum >= (len(CountryList) - 1):
+            Finished = True
+        Country = CountryList[CountryNum]
+        QuizPlacement()
+        CheckAnswer(Country, Region)
 
     elif Region == "Oceania":
-
-        Country = "Fiji"
-        Submitted = False
-        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
-        image_tk = ImageTk.PhotoImage(image_original)
-        ImageLabel = tk.Label(root, text="", image=image_tk)
-        ImageLabel.image = image_tk
-        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
-        ImageLabel.lower()
-        CheckAnswer(Country)
+        CountryList = ("Fiji", "New Zealand", "Vanuatu")
+        if CountryNum >= (len(CountryList) - 1):
+            Finished = True
+        Country = CountryList[CountryNum]
+        QuizPlacement()
+        CheckAnswer(Country, Region)
 
 def Learn(Region):
     global Country, ImageLabel, InfoLabel
@@ -191,24 +178,30 @@ def Learn(Region):
         engine.say("Fiji")
         engine.runAndWait
 
-def CheckAnswer(Country):
-    global Submitted, Answer, Score, HighScore
-    if Submitted:
-        if Answer.lower() == Country.lower():
+def CheckAnswer(Country, Region):
+    global Submitted, Answer, Score, HighScore, CountryNum, ImageLabel, Finished
+    if Submitted: # Check if user has submitted a response
+        if Answer.lower() == Country.lower(): # Correct answer
             Score += 1
             messagebox.showinfo(title="Result", message="Correct Answer!")
-        else:
+        else: # Incorrect answer
             messagebox.showinfo(title="Result", message=f"Incorrect! Answer was: {Country}")
-
-        # End of quiz, show score
-        messagebox.showinfo(title="Result", message=f"Finished Quiz! Score: {Score}")
-        if Score > HighScore:
-            HighScore = Score
-        EndQuiz()
+        if Finished: # End of quiz
+            Finished = False
+            CountryNum = 0
+            messagebox.showinfo(title="Result", message=f"Finished Quiz! Score: {Score}")
+            if Score > HighScore:
+                HighScore = Score
+            EndQuiz()
+        else:
+            CountryNum += 1
+            ImageLabel.place_forget()
+            Quiz(Region, CountryNum)
 
 def BeginQuiz():
-    global Score
+    global Score, CountryNum
     Score = 0
+    CountryNum = 0
     BeginButton.place_forget()
     RegionMenu.place_forget()
     ModeButton.place_forget()
@@ -236,7 +229,7 @@ def BeginQuiz():
     elif CurrentMode.get() == "Quiz":
         EntryFieldElement.place(relx=0.5, rely=0.95, anchor="center")
         EntryFieldElement.delete(0, END)
-        Quiz(Region)
+        Quiz(Region, CountryNum)
 
 def GoToMenu():
     BeginButton.place(relx=0.5, rely=0.35, anchor="center")
@@ -248,7 +241,7 @@ def Submit():
     global Submitted, Answer
     Answer = EntryFieldElement.get()
     Submitted = True
-    CheckAnswer(Country)
+    CheckAnswer(Country, Region)
 
 def Skip():
     EndQuiz()
@@ -315,7 +308,8 @@ def Large():
 def about():
     messagebox.showinfo(title="GeoQuiz", message="By Ethan \
                     https://github.com/EthanSDD/GeoQuiz \
-                    Licensed under GPL-3.0")
+                    Licensed under GPL-3.0 \
+                    Images by Vemaps.com")
 
 # Create File toolbar
 menubar = Menu(root)
