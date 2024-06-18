@@ -1,0 +1,36 @@
+{
+  "highscore": 4,
+  "regions": {
+    "North America": [
+      "USA",
+      "Mexico",
+      "Canada"
+    ],
+    "South America": [
+      "Brazil",
+      "Argentina",
+      "Colombia"
+    ],
+    "Europe": [
+      "Germany",
+      "France",
+      "Russia",
+      "United Kingdom"
+    ],
+    "Asia": [
+      "Japan",
+      "Korea",
+      "India"
+    ],
+    "Africa": [
+      "Egypt",
+      "Ethiopia",
+      "Tanzania"
+    ],
+    "Oceania": [
+      "Fiji",
+      "New Zealand",
+      "Vanuatu"
+    ]
+  }
+}

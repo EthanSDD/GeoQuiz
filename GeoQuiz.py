@@ -3,6 +3,7 @@ from tkinter import messagebox
 import tkinter as tk
 from customtkinter import *
 from PIL import Image, ImageTk
+import json
 import pyttsx3
 
 root = CTk()
@@ -14,7 +15,6 @@ set_widget_scaling(1.8)
 
 # Initialise Values
 TypedMode = True
-HighScore = 0
 Size = "Medium"
 Country = "USA"
 Answer = "Test"
@@ -24,6 +24,15 @@ CurrentCountryIndex = 0
 Finished = False
 CountryNum = 0
 InfoLabel = CTkLabel(root, text="Test", font=("Arial", 10))
+
+# Load country list
+with open('data.json', 'r') as file:
+    data = json.load(file)
+
+def HighScoreUpdate():
+    global HighScore
+    HighScore = data.get("highscore", 0)
+HighScoreUpdate()
 
 def QuizPlacement():
     global Submitted, Country, ImageLabel
@@ -37,149 +46,105 @@ def QuizPlacement():
 
 def Quiz(Region, CountryNum):
     global Country, Finished
-    if Region == "North America":
-        CountryList = ("USA", "Mexico", "Canada")
-        if CountryNum >= (len(CountryList) - 1):
-            Finished = True
-        Country = CountryList[CountryNum]
-        QuizPlacement()
-        CheckAnswer(Country, Region)
+    CountryList = data['regions'][Region]
+    if CountryNum >= (len(CountryList) - 1):
+        Finished = True
+    Country = CountryList[CountryNum]
+    QuizPlacement()
+    CheckAnswer(Country, Region)
 
-    elif Region == "South America":
-        CountryList = ("Brazil", "Argentina", "Colombia")
-        if CountryNum >= (len(CountryList) - 1):
-            Finished = True
-        Country = CountryList[CountryNum]
-        QuizPlacement()
-        CheckAnswer(Country, Region)
+def Learn(Region, CountryNum):
+    global Country, Finished, ImageLabel, InfoLabel
+    CountryList = data['regions'][Region]
+    if CountryNum >= (len(CountryList) - 1):
+        Finished = True
+    #Country = data.get("regions", {}).get(Region, "Unknown")
+    Country = CountryList[CountryNum]
+    QuizPlacement()
+    InfoLabel = CTkLabel(root, text=Country, font=("Arial", 10))
+    InfoLabel.place(relx=0.5, rely=0.05, anchor="center")
+    engine = pyttsx3.init()
+    engine.say(Country)
+    engine.runAndWait()
+    CheckAnswer(Country, Region)
 
-    elif Region == "Europe":
-        CountryList = ("Germany", "France", "Russia")
-        if CountryNum >= (len(CountryList) - 1):
-            Finished = True
-        Country = CountryList[CountryNum]
-        QuizPlacement()
-        CheckAnswer(Country, Region)
-
-    elif Region == "Asia":
-        CountryList = ("Japan", "Korea", "India")
-        if CountryNum >= (len(CountryList) - 1):
-            Finished = True
-        Country = CountryList[CountryNum]
-        QuizPlacement()
-        CheckAnswer(Country, Region)
-
-    elif Region == "Africa":
-        CountryList = ("Egypt", "Ethiopia", "Tanzania")
-        if CountryNum >= (len(CountryList) - 1):
-            Finished = True
-        Country = CountryList[CountryNum]
-        QuizPlacement()
-        CheckAnswer(Country, Region)
-
-    elif Region == "Oceania":
-        CountryList = ("Fiji", "New Zealand", "Vanuatu")
-        if CountryNum >= (len(CountryList) - 1):
-            Finished = True
-        Country = CountryList[CountryNum]
-        QuizPlacement()
-        CheckAnswer(Country, Region)
-
-def Learn(Region):
-    global Country, ImageLabel, InfoLabel
-
-    if Region == "North America":
-
-        Country = "USA"
-        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
-        image_tk = ImageTk.PhotoImage(image_original)
-        ImageLabel = tk.Label(root, text="", image=image_tk)
-        ImageLabel.image = image_tk
-        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
-        ImageLabel.lower()
-        InfoLabel = CTkLabel(root, text="USA", font=("Arial", 10))
-        InfoLabel.place(relx=0.5, rely=0.05, anchor="center")
-        engine = pyttsx3.init()
-        engine.say("USA")
-        engine.runAndWait
-
-    elif Region == "South America":
+    # elif Region == "South America":
         
-        Country = "Brazil"
-        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
-        image_tk = ImageTk.PhotoImage(image_original)
-        ImageLabel = tk.Label(root, text="", image=image_tk)
-        ImageLabel.image = image_tk
-        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
-        ImageLabel.lower()
-        InfoLabel = CTkLabel(root, text="Brazil", font=("Arial", 10))
-        InfoLabel.place(relx=0.5, rely=0.05, anchor="center")
-        engine = pyttsx3.init()
-        engine.say("Brazil")
-        engine.runAndWait
+    #     Country = "Brazil"
+    #     image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
+    #     image_tk = ImageTk.PhotoImage(image_original)
+    #     ImageLabel = tk.Label(root, text="", image=image_tk)
+    #     ImageLabel.image = image_tk
+    #     ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
+    #     ImageLabel.lower()
+    #     InfoLabel = CTkLabel(root, text="Brazil", font=("Arial", 10))
+    #     InfoLabel.place(relx=0.5, rely=0.05, anchor="center")
+    #     engine = pyttsx3.init()
+    #     engine.say("Brazil")
+    #     engine.runAndWait
 
-    elif Region == "Europe":
+    # elif Region == "Europe":
         
-        Country = "Germany"
-        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
-        image_tk = ImageTk.PhotoImage(image_original)
-        ImageLabel = tk.Label(root, text="", image=image_tk)
-        ImageLabel.image = image_tk
-        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
-        ImageLabel.lower()
-        InfoLabel = CTkLabel(root, text="Germany", font=("Arial", 10))
-        InfoLabel.place(relx=0.5, rely=0.05, anchor="center")
-        engine = pyttsx3.init()
-        engine.say("Germany")
-        engine.runAndWait
+    #     Country = "Germany"
+    #     image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
+    #     image_tk = ImageTk.PhotoImage(image_original)
+    #     ImageLabel = tk.Label(root, text="", image=image_tk)
+    #     ImageLabel.image = image_tk
+    #     ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
+    #     ImageLabel.lower()
+    #     InfoLabel = CTkLabel(root, text="Germany", font=("Arial", 10))
+    #     InfoLabel.place(relx=0.5, rely=0.05, anchor="center")
+    #     engine = pyttsx3.init()
+    #     engine.say("Germany")
+    #     engine.runAndWait
 
-    elif Region == "Asia":
+    # elif Region == "Asia":
         
-        Country = "Japan"
-        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
-        image_tk = ImageTk.PhotoImage(image_original)
-        ImageLabel = tk.Label(root, text="", image=image_tk)
-        ImageLabel.image = image_tk
-        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
-        ImageLabel.lower()
-        InfoLabel = CTkLabel(root, text="Japan", font=("Arial", 10))
-        InfoLabel.place(relx=0.5, rely=0.05, anchor="center")
-        engine = pyttsx3.init()
-        engine.say("Japan")
-        engine.runAndWait
+    #     Country = "Japan"
+    #     image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
+    #     image_tk = ImageTk.PhotoImage(image_original)
+    #     ImageLabel = tk.Label(root, text="", image=image_tk)
+    #     ImageLabel.image = image_tk
+    #     ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
+    #     ImageLabel.lower()
+    #     InfoLabel = CTkLabel(root, text="Japan", font=("Arial", 10))
+    #     InfoLabel.place(relx=0.5, rely=0.05, anchor="center")
+    #     engine = pyttsx3.init()
+    #     engine.say("Japan")
+    #     engine.runAndWait
 
-    elif Region == "Africa":
+    # elif Region == "Africa":
         
-        Country = "Egypt"
-        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
-        image_tk = ImageTk.PhotoImage(image_original)
-        ImageLabel = tk.Label(root, text="", image=image_tk)
-        ImageLabel.image = image_tk
-        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
-        ImageLabel.lower()
-        InfoLabel = CTkLabel(root, text="Egypt", font=("Arial", 10))
-        InfoLabel.place(relx=0.5, rely=0.05, anchor="center")
-        engine = pyttsx3.init()
-        engine.say("Egypt")
-        engine.runAndWait
+    #     Country = "Egypt"
+    #     image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
+    #     image_tk = ImageTk.PhotoImage(image_original)
+    #     ImageLabel = tk.Label(root, text="", image=image_tk)
+    #     ImageLabel.image = image_tk
+    #     ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
+    #     ImageLabel.lower()
+    #     InfoLabel = CTkLabel(root, text="Egypt", font=("Arial", 10))
+    #     InfoLabel.place(relx=0.5, rely=0.05, anchor="center")
+    #     engine = pyttsx3.init()
+    #     engine.say("Egypt")
+    #     engine.runAndWait
 
-    elif Region == "Oceania":
+    # elif Region == "Oceania":
 
-        Country = "Fiji"
-        image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
-        image_tk = ImageTk.PhotoImage(image_original)
-        ImageLabel = tk.Label(root, text="", image=image_tk)
-        ImageLabel.image = image_tk
-        ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
-        ImageLabel.lower()
-        InfoLabel = CTkLabel(root, text="Fiji", font=("Arial", 10))
-        InfoLabel.place(relx=0.5, rely=0.05, anchor="center")
-        engine = pyttsx3.init()
-        engine.say("Fiji")
-        engine.runAndWait
+    #     Country = "Fiji"
+    #     image_original = Image.open(f"images/{Country.lower()}.png").resize((500, 500))
+    #     image_tk = ImageTk.PhotoImage(image_original)
+    #     ImageLabel = tk.Label(root, text="", image=image_tk)
+    #     ImageLabel.image = image_tk
+    #     ImageLabel.place(relx=0.5, rely=0.5, anchor="center")
+    #     ImageLabel.lower()
+    #     InfoLabel = CTkLabel(root, text="Fiji", font=("Arial", 10))
+    #     InfoLabel.place(relx=0.5, rely=0.05, anchor="center")
+    #     engine = pyttsx3.init()
+    #     engine.say("Fiji")
+    #     engine.runAndWait
 
 def CheckAnswer(Country, Region):
-    global Submitted, Answer, Score, HighScore, CountryNum, ImageLabel, Finished
+    global Submitted, Answer, Score, HighScore, CountryNum, ImageLabel, Finished, data
     if Submitted: # Check if user has submitted a response
         if Answer.lower() == Country.lower(): # Correct answer
             Score += 1
@@ -191,12 +156,29 @@ def CheckAnswer(Country, Region):
             CountryNum = 0
             messagebox.showinfo(title="Result", message=f"Finished Quiz! Score: {Score}")
             if Score > HighScore:
-                HighScore = Score
+                data["highscore"] = Score
+                with open('data.json', 'w') as file:
+                    json.dump(data, file, indent=2)
             EndQuiz()
         else:
             CountryNum += 1
             ImageLabel.place_forget()
             Quiz(Region, CountryNum)
+
+def LearnUpdate(Country, Region):
+    global Answer, Score, HighScore, CountryNum, ImageLabel, Finished, data
+    if Finished: # End of quiz
+        Finished = False
+        CountryNum = 0
+        if Score > HighScore:
+            data["highscore"] = Score
+            with open('data.json', 'w') as file:
+                json.dump(data, file, indent=2)
+        EndQuiz()
+    else:
+        CountryNum += 1
+        ImageLabel.place_forget()
+        Learn(Region, CountryNum)
 
 def BeginQuiz():
     global Score, CountryNum
@@ -225,7 +207,7 @@ def BeginQuiz():
         NewAttemptButton.place(relx=0.99, rely=0.88, anchor="se")
         EndQuizButton.place(relx=0.975, rely=0.98, anchor="se")
     if CurrentMode.get() == "Learn":
-        Learn(Region)
+        Learn(Region, CountryNum)
     elif CurrentMode.get() == "Quiz":
         EntryFieldElement.place(relx=0.5, rely=0.95, anchor="center")
         EntryFieldElement.delete(0, END)
@@ -261,6 +243,7 @@ def EndQuiz():
     NewAttemptButton.place_forget()
     EndQuizButton.place_forget()
     EntryFieldElement.place_forget()
+    HighScoreUpdate()
     ScoreLabel.configure(text=f"High Score: {HighScore}")
     InfoLabel.place_forget()
     GoToMenu()
