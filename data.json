@@ -2,25 +2,24 @@
   "highscore": 0,
   "regions": {
     "North America": [
-      "USA",
+      "Canada",
       "Mexico",
-      "Canada"
+      "United States of America"
     ],
     "South America": [
-      "Brazil",
       "Argentina",
+      "Brazil",
       "Colombia"
     ],
     "Europe": [
-      "Germany",
       "France",
-      "Russia",
-      "United Kingdom"
+      "Germany",
+      "Russia"
     ],
     "Asia": [
+      "India",
       "Japan",
-      "Korea",
-      "India"
+      "South Korea"
     ],
     "Africa": [
       "Egypt",
@@ -28,9 +27,9 @@
       "Tanzania"
     ],
     "Oceania": [
+      "Australia",
       "Fiji",
-      "New Zealand",
-      "Vanuatu"
+      "New Zealand"
     ]
   }
 }
